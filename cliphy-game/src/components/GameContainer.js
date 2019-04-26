@@ -24,6 +24,18 @@ class GameContainer extends Component {
             .catch(err => console.log(err));
     }
 
+    // Fisher-Yates shuffle algorithm (stack overflow win)
+    shuffleGiphs = (a) => {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            x = a[i];
+            a[i] = a[j];
+            a[j] = x;
+        }
+        return a; //rewrite DOM with new array
+    }
+
     // function to increment counter and set "state" of button as clicked for game logic
     buttonLogic = id => {
         console.log(id);
