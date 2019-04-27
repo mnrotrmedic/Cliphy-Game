@@ -7,7 +7,7 @@ import CardComponent from "./Card";
 
 class GameContainer extends Component {
     state = {
-        apiCards: {}, //array for giphs from API call
+        apiCards: [], //array for giphs from API call
         score: 0, //set score for page load, will be incremented for each succesful click
         highScore: 0 //high score for this session, maybe add cookie or local storage for persistent score?
     };
@@ -21,7 +21,15 @@ class GameContainer extends Component {
     getGiphs = query => {
         console.log("getGiphs()")
         API.search(query)
-            .then(res => this.setState({ apiCards: res.data })) //this is busted. can see returned array but can't work within/around it
+            .then(res => {
+                let data = res.data.data
+                //add clicked prop of false
+                data.map((card) => {
+                    card.clicked = false;
+                    return card;
+                })
+                this.setState({ apiCards: data })
+            }) //this is busted. can see returned array but can't work within/around it
             .catch(err => console.log(err));
     }
 
@@ -40,6 +48,24 @@ class GameContainer extends Component {
     buttonLogic = id => {
         //if clicked and value is false then set new state (& call add to score function)
         //if value is true run a reset function
+        let gameOver = false;
+        let newAPICards = this.state.apiCards.map(card => {
+            if (card.id === id) { //find the one that was clicked
+                if (card.clicked) { //if clicked = true
+                    gameOver = true;
+                } else {
+                    card.clicked = true;
+                }
+            }
+            return card;
+        })
+        if (gameOver === false) {
+            this.setState({
+                apiCards: this.shuffleGiphs(newAPICards)
+            });
+            this.incrementScore();
+        }
+
     }
 
     // shuffleBoard = () => {
@@ -49,6 +75,7 @@ class GameContainer extends Component {
 
     incrementScore = () => {
         let newScore = this.state.score + 1;
+        console.log(newScore)
         this.setState({ score: newScore }) //set state of score equal to value plus one
         if (newScore > this.state.highScore) { //if new score beats high score, replace high score
             this.setState({
@@ -69,23 +96,19 @@ class GameContainer extends Component {
 
 
     render() {
+        console.log(this.state.apiCards)
         return (
             <Container>
                 <Row>
                     <Col>
-                        <p>DOM Stuff here</p>
-                        {console.log(this.state.result)}
-                        <CardComponent />
-
-
-                        {/* {this.state.result.data.map(giph => (
+                        {this.state.apiCards.map(giph => (
                             <CardComponent
-                                buttonLogic={this.buttonLogic}
+                                buttonLogic={() => { this.buttonLogic(giph.id) }}
                                 id={giph.id}
                                 image={giph.images.fixed_width.url}
                                 title={giph.title}
                             />
-                        ))} */}
+                        ))}
                     </Col>
                 </Row>
             </Container>
