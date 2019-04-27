@@ -38,9 +38,14 @@ class GameContainer extends Component {
 
     // function to increment counter and set "state" of button as clicked for game logic
     buttonLogic = id => {
-        console.log(id);
-        console.log("Do something cool here")
+        //if clicked and value is false then set new state & add to score, 
+        //if value is true run a reset function
     }
+
+gameReset = ()=> {
+    //shuffle array and write to DOM
+    //reset game score to zero (leave high score alone)
+}
 
     render() {
         return (
