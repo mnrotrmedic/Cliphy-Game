@@ -2,7 +2,7 @@
   "name": "cliphy-game",
   "version": "0.1.0",
   "private": false,
-  "homepage": "http://mnrotrmedic.github.io/Cliphy-Game",
+  "homepage": "http://mnrotrmedic.github.io/cliphy-game",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",
