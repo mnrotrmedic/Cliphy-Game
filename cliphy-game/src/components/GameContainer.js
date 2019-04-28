@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from 'react-bootstrap/Navbar';
 import React, { Component } from "react";
 import Row from "react-bootstrap/Row";
+import { toast } from 'react-toastify';
 import Wrapper from "./Wrapper"
 
 
@@ -18,8 +19,12 @@ class GameContainer extends Component {
 
     // on DOM 'mount' hit api to get cool cat giphs
     componentDidMount() {
+        this.pickSomethingCute()
+    }
+
+    pickSomethingCute = () => {
         const cuteAnimals = [ //array of cute li'l animals to add some variety
-            "kittens", "puppies", "baby pig", "baby koala", "baby giraffe"
+            "kittens", "puppies", "baby pig", "baby koala"
         ]
         let randomNum = Math.floor(Math.random() * cuteAnimals.length);
         const cutePick = cuteAnimals[randomNum];
@@ -76,7 +81,7 @@ class GameContainer extends Component {
             });
             this.incrementScore();
         } else if (
-            console.log("failure"),
+            toast.error("Oh no, you already clicked that one!"),
             this.gameReset()
         );
     }
@@ -90,8 +95,10 @@ class GameContainer extends Component {
             this.setState({
                 highScore: newScore
             })
-        } else if (newScore === 10) {
-            alert("YOU WIN!"); //maybe do something more elegant here...
+        };
+
+        if (newScore === 10) {
+            toast.success("Perfect score! Nice work!")
             this.gameReset();
         }
     }
@@ -101,15 +108,23 @@ class GameContainer extends Component {
             score: 0, //set score for page load, will be incremented for each succesful click
             highScore: this.state.highScore //high score for this session, maybe add cookie or local storage for persistent high score?
         });
-        this.getGiphs("ducks");
+        this.pickSomethingCute();
     }
 
 
     render() {
         return (
-            <Container>
-                <Navbar>
+            <Container
+                style={{ backgroundColor: "green" }}>
+                <Navbar
+                    style={{
+                        color: "#ed5429",
+                        width: "100%"
+                    }}
+                >
                     <h1>Cliphy Game</h1>
+                    <h2>Score: {this.state.score}</h2>
+                    <h2>High Score: {this.state.highScore}</h2>
                 </Navbar>
                 <Row>
                     <Wrapper>
@@ -117,7 +132,7 @@ class GameContainer extends Component {
                             <CardComponent
                                 buttonLogic={() => { this.buttonLogic(giph.id) }}
                                 id={giph.id}
-                                image={giph.images.fixed_height.url}
+                                image={giph.images.fixed_width.url}
                                 title={giph.title}
                             />
                         ))}
