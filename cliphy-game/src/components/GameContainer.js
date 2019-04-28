@@ -1,11 +1,15 @@
 import API from "../utils/API";
-import Col from "react-bootstrap/Col";
+import CardComponent from "./Card";
 import Container from "react-bootstrap/Container";
+import Navbar from 'react-bootstrap/Navbar';
 import React, { Component } from "react";
 import Row from "react-bootstrap/Row";
-import CardComponent from "./Card";
+import Wrapper from "./Wrapper"
+
 
 class GameContainer extends Component {
+
+
     state = {
         apiCards: [], //array for giphs from API call
         score: 0, //set score for page load, will be incremented for each succesful click
@@ -14,8 +18,15 @@ class GameContainer extends Component {
 
     // on DOM 'mount' hit api to get cool cat giphs
     componentDidMount() {
-        this.getGiphs("cats"); //call API util and look for cat giphs
+        const cuteAnimals = [ //array of cute li'l animals to add some variety
+            "kittens", "puppies", "baby pig", "baby koala", "baby giraffe"
+        ]
+        let randomNum = Math.floor(Math.random() * cuteAnimals.length);
+        const cutePick = cuteAnimals[randomNum];
+
+        this.getGiphs(`${cutePick}`); //call API util and look for giphs
     }
+
 
     // API call for giphs
     getGiphs = query => {
@@ -29,7 +40,7 @@ class GameContainer extends Component {
                     return card;
                 })
                 this.setState({ apiCards: data })
-            }) //this is busted. can see returned array but can't work within/around it
+            })
             .catch(err => console.log(err));
     }
 
@@ -64,52 +75,53 @@ class GameContainer extends Component {
                 apiCards: this.shuffleGiphs(newAPICards)
             });
             this.incrementScore();
-        }
-
+        } else if (
+            console.log("failure"),
+            this.gameReset()
+        );
     }
-
-    // shuffleBoard = () => {
-    //     let gameCards = shuffleGiphs(apiCards); //new variable to pass into shuffle function
-    //     this.setState({ apiCards: gameCards }); //set state to shuffled array
-    // }
 
     incrementScore = () => {
         let newScore = this.state.score + 1;
-        console.log(newScore)
+        console.log(`Score: ${newScore}`)
+        console.log(`High Score: ${this.state.highScore}`)
         this.setState({ score: newScore }) //set state of score equal to value plus one
-        if (newScore > this.state.highScore) { //if new score beats high score, replace high score
+        if (this.state.highScore <= newScore) { //if new score beats high score, replace high score
             this.setState({
                 highScore: newScore
             })
-        } else if (newScore === 9) {
-            alert("YOU WIN!") //maybe do something more elegant here...
+        } else if (newScore === 10) {
+            alert("YOU WIN!"); //maybe do something more elegant here...
+            this.gameReset();
         }
     }
 
     gameReset = () => {
         this.setState({
-            apiCards: {}, //array for giphs from API call
             score: 0, //set score for page load, will be incremented for each succesful click
-            highScore: 0 //high score for this session, maybe add cookie or local storage for persistent score?
-        })
+            highScore: this.state.highScore //high score for this session, maybe add cookie or local storage for persistent high score?
+        });
+        this.getGiphs("ducks");
     }
 
 
     render() {
-        console.log(this.state.apiCards)
         return (
             <Container>
+                <Navbar>
+                    <h1>Cliphy Game</h1>
+                </Navbar>
                 <Row>
-                    <Col>
+                    <Wrapper>
                         {this.state.apiCards.map(giph => (
                             <CardComponent
                                 buttonLogic={() => { this.buttonLogic(giph.id) }}
                                 id={giph.id}
-                                image={giph.images.fixed_width.url}
+                                image={giph.images.fixed_height.url}
                                 title={giph.title}
                             />
                         ))}
-                    </Col>
+                    </Wrapper>
                 </Row>
             </Container>
         )
