@@ -8,8 +8,9 @@ function CardComponent(props) {
                 width: "200 px",
                 height: "200 px",
                 position: "relative",
-                float: "left"
-
+                float: "left",
+                backgroundColor: "green",
+                border: "none"
             }}
             onClick={() => props.buttonLogic(props.id)} //Click event handlet
         >
@@ -18,6 +19,8 @@ function CardComponent(props) {
                 src={props.image}
                 alt={props.name}
             />
+            {/* for testing, display ID */}
+            <p>{props.clicked}</p>
         </Card>
     );
 }

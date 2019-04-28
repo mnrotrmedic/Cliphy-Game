@@ -128,12 +128,13 @@ class GameContainer extends Component {
                 </Navbar>
                 <Row>
                     <Wrapper>
+                        {console.log(this.state.apiCards)}
                         {this.state.apiCards.map(giph => (
                             <CardComponent
                                 buttonLogic={() => { this.buttonLogic(giph.id) }}
                                 id={giph.id}
                                 image={giph.images.fixed_width.url}
-                                title={giph.title}
+                                clicked={giph.clicked}
                             />
                         ))}
                     </Wrapper>
