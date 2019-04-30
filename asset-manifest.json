@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/cliphy-game/static/css/main.da80fe2a.chunk.css",
+    "main.js": "/cliphy-game/static/js/main.ec411c06.chunk.js",
+    "main.js.map": "/cliphy-game/static/js/main.ec411c06.chunk.js.map",
+    "runtime~main.js": "/cliphy-game/static/js/runtime~main.75aabe6f.js",
+    "runtime~main.js.map": "/cliphy-game/static/js/runtime~main.75aabe6f.js.map",
+    "static/css/2.c489bcc4.chunk.css": "/cliphy-game/static/css/2.c489bcc4.chunk.css",
+    "static/js/2.bba677ee.chunk.js": "/cliphy-game/static/js/2.bba677ee.chunk.js",
+    "static/js/2.bba677ee.chunk.js.map": "/cliphy-game/static/js/2.bba677ee.chunk.js.map",
+    "index.html": "/cliphy-game/index.html",
+    "precache-manifest.1f6423e25cf96a2f816bf5a036c66d6f.js": "/cliphy-game/precache-manifest.1f6423e25cf96a2f816bf5a036c66d6f.js",
+    "service-worker.js": "/cliphy-game/service-worker.js",
+    "static/css/2.c489bcc4.chunk.css.map": "/cliphy-game/static/css/2.c489bcc4.chunk.css.map",
+    "static/css/main.da80fe2a.chunk.css.map": "/cliphy-game/static/css/main.da80fe2a.chunk.css.map"
+  }
+}
